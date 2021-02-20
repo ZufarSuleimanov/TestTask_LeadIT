@@ -11,6 +11,12 @@ class NewsFeedViewController: UIViewController {
 
     @IBOutlet weak var newsFeedCollectionView: UICollectionView!
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        executeRequest()
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         newsFeedCollectionView.delegate = self

@@ -9,6 +9,11 @@ import UIKit
 
 class NewsCell: UICollectionViewCell {
 
+    @IBOutlet weak var publishedDateLabel: UILabel!
+    @IBOutlet weak var titleTextView: UITextView!
+    @IBOutlet weak var abstractTextView: UITextView!
+    @IBOutlet weak var multimediaURLImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

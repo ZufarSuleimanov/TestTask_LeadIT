@@ -35,7 +35,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6d8-2j-vHM">
-                                <rect key="frame" x="0.0" y="202" width="343" height="82"/>
+                                <rect key="frame" x="0.0" y="202" width="343" height="60"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Cm4-sP-3Mn"/>
@@ -46,10 +46,10 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ymd-Qx-Atf">
-                                <rect key="frame" x="0.0" y="288" width="343" height="80"/>
+                                <rect key="frame" x="0.0" y="266" width="343" height="102"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="80" id="zNU-l6-8wc"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="zNU-l6-8wc"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -67,6 +67,12 @@
                     <constraint firstAttribute="bottom" secondItem="dAv-U1-NCB" secondAttribute="bottom" constant="16" id="tLS-TY-5jf"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="abstractTextView" destination="Ymd-Qx-Atf" id="Ss7-yJ-MmH"/>
+                <outlet property="multimediaURLImageView" destination="isn-fJ-EHy" id="2th-PM-vDl"/>
+                <outlet property="publishedDateLabel" destination="ASb-Eu-WOV" id="S5c-g4-ONK"/>
+                <outlet property="titleTextView" destination="6d8-2j-vHM" id="Pxq-cM-DAW"/>
+            </connections>
             <point key="canvasLocation" x="110.86956521739131" y="129.24107142857142"/>
         </tableViewCell>
     </objects>
