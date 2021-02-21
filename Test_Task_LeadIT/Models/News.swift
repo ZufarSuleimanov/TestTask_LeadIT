@@ -5,7 +5,7 @@
 //  Created by Zufar Suleimanov on 19.02.2021.
 //
 
-import Foundation
+import UIKit
 
 struct News: Hashable {
     var title: String
@@ -13,4 +13,5 @@ struct News: Hashable {
     var url: String
     var publishedDate: Date
     var multimediaURL: String
+    var image: UIImage?
 }

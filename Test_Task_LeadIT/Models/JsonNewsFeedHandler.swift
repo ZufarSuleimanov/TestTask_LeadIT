@@ -5,9 +5,9 @@
 //  Created by Zufar Suleimanov on 19.02.2021.
 //
 
-import Foundation
+import UIKit
 
-class JsonNewsFeedHandler {
+final class JsonNewsFeedHandler {
 
     static var onCompletion: ((News?) -> Void)?
     
@@ -21,23 +21,25 @@ class JsonNewsFeedHandler {
     }
     
     static func parseJsonResult(withData data: Data) {
-        let decoder = JSONDecoder()
         do {
-            let json = try! decoder.decode(NewsFeed.self, from: data)
+            let json = try JSONDecoder().decode(NewsFeed.self, from: data)
             if json.status == "OK" {
                 for jsonNews in json.results {
                     let news = News.init(
-                        title:          jsonNews.title ?? "no data",
-                        abstract:       jsonNews.abstract ?? "no data",
-                        url:            jsonNews.url ?? "no data",
-                        publishedDate:  toDate(dateFormat: jsonNews.publishedDate ?? "0001-01-01T00:00:00") ?? Date(),
-                        multimediaURL:  jsonNews.multimedia?.first!.url ?? "no data"
+                        title:          jsonNews.title,
+                        abstract:       jsonNews.abstract,
+                        url:            jsonNews.url,
+                        publishedDate:  toDate(dateFormat: jsonNews.published_date)!,
+                        multimediaURL:  (jsonNews.multimedia[3].url),
+                        image:          nil
                     )
                     onCompletion?(news)
                 }
             } else {
-                onCompletion?(nil)
+                Notifications.callAlert(title: "Error", message: "Please connect to the Internet.", in: NewsFeedViewController.self as! UIViewController)
             }
+        } catch {
+            Notifications.callAlert(title: "Error", message: "Service unavailable, out of try later.", in: NewsFeedViewController.self as! UIViewController)
         }
     }
     
