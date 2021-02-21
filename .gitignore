@@ -94,3 +94,4 @@ iOSInjectionProject/
 .DS_Store
 Pods
 Test_Task_LeadIT.xcworkspace
+*.xcuserstate
