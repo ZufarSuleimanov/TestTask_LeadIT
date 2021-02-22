@@ -13,7 +13,7 @@ final class JsonNewsFeedHandler {
     
     static func getJsonRequest(url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
-            DispatchQueue.main.async {
+            DispatchQueue.global(qos: .utility).async {
                 if let error = error {
                     parseJsonResult(withData: .failure(error))
                     return

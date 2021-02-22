@@ -14,7 +14,7 @@ var newsFeedDataDifference = [List]()
 
 extension UIImageView {
     func getNewsArticleImage(link:String) {
-        DispatchQueue.global(qos: .utility).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             guard let url = URL(string: link) else { return }
             URLSession.shared.dataTask(with: url, completionHandler: { (data, _, error) -> Void in
                 guard let data = data , error == nil, let image = UIImage(data: data) else { return }
@@ -36,6 +36,11 @@ extension NewsFeedViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if newsFeedData.count > 0 {
+            processingActivityIndicatorView.isHidden = true
+            processingActivityIndicatorView.stopAnimating()
+        }
         return newsFeedData.count
     }
     

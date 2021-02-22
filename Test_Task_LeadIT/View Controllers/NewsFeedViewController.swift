@@ -9,6 +9,7 @@ import UIKit
 
 final class NewsFeedViewController: UIViewController {
     @IBOutlet weak var newsFeedCollectionView: UICollectionView!
+    @IBOutlet weak var processingActivityIndicatorView: UIActivityIndicatorView!
     let newsRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         let title = NSLocalizedString("Just a second", comment: "Pull to refresh")
@@ -30,6 +31,8 @@ final class NewsFeedViewController: UIViewController {
         super.viewDidLoad()
         newsFeedCollectionView.delegate = self
         newsFeedCollectionView.dataSource = self
+        processingActivityIndicatorView.isHidden = false
+        processingActivityIndicatorView.startAnimating()
         newsFeedCollectionView.refreshControl = newsRefreshControl
         newsFeedCollectionView.register(UINib.init(nibName: XIBs.NewsCell.rawValue, bundle: nil), forCellWithReuseIdentifier: Cells.NewsFeedCell.rawValue)
     }
