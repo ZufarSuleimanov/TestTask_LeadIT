@@ -21,8 +21,11 @@ final class NewsFeedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if Reachability.isConnectedToNetwork() != true {
-            Notifications.callAlert(title: "Error", message: "Please connect to the Internet", in: self)
+            Notifications.callAlert(title: "Error", message: "Please connect to the Interneta and pull to download news", in: self)
+            processingActivityIndicatorView.isHidden = true
         } else {
+            processingActivityIndicatorView.isHidden = false
+            processingActivityIndicatorView.startAnimating()
             executeRequest(checking: false)
         }
     }
@@ -31,8 +34,6 @@ final class NewsFeedViewController: UIViewController {
         super.viewDidLoad()
         newsFeedCollectionView.delegate = self
         newsFeedCollectionView.dataSource = self
-        processingActivityIndicatorView.isHidden = false
-        processingActivityIndicatorView.startAnimating()
         newsFeedCollectionView.refreshControl = newsRefreshControl
         newsFeedCollectionView.register(UINib.init(nibName: XIBs.NewsCell.rawValue, bundle: nil), forCellWithReuseIdentifier: Cells.NewsFeedCell.rawValue)
     }
