@@ -30,7 +30,7 @@ final class JsonNewsFeedHandler {
             do {
                 let news = try JSONDecoder().decode(NewsFeed.self, from: data)
                 print(news)
-                onCompletion?(news.results)
+                onCompletion?(news.results.sorted{ $0.published_date > $1.published_date })
             } catch let jsonError {
                 print("Failed to decode JSON", jsonError)
                 onCompletion?(nil)
