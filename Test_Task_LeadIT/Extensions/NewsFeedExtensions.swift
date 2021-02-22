@@ -67,6 +67,7 @@ extension NewsFeedViewController: UICollectionViewDataSource {
                 if records == false {
                     newsFeedData = news!
                 } else {
+                    newsFeedDataDifference.removeAll()
                     newsFeedDataDifference = news!
                     self.controlRecords()
                 }
@@ -80,6 +81,8 @@ extension NewsFeedViewController: UICollectionViewDataSource {
         differenceСontrol.subtract(newsFeedData)
         if differenceСontrol.count > 0 {
             newsFeedData.append(contentsOf: differenceСontrol)
+            let sortResult = newsFeedData.sorted{ $0.published_date > $1.published_date }
+            newsFeedData = sortResult
             DispatchQueue.main.async{ self.newsFeedCollectionView.reloadData() }
         }
     }
