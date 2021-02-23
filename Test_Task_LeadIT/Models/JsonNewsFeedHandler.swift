@@ -9,49 +9,35 @@ import UIKit
 
 final class JsonNewsFeedHandler {
 
-    static var onCompletion: ((News?) -> Void)?
+    static var onCompletion: (([List]?) -> Void)?
     
     static func getJsonRequest(url: URL) {
-        let session = URLSession.shared
-        session.dataTask(with: url) { (data, response, error) in
-            if let data = data {
-                self.parseJsonResult(withData: data)
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            DispatchQueue.global(qos: .utility).async {
+                if let error = error {
+                    parseJsonResult(withData: .failure(error))
+                    return
+                }
+                guard let data = data else { return }
+                parseJsonResult(withData: .success(data))
             }
         }.resume()
     }
     
-    static func parseJsonResult(withData data: Data) {
-        do {
-            let json = try JSONDecoder().decode(NewsFeed.self, from: data)
-            if json.status == "OK" {
-                for jsonNews in json.results {
-                    let news = News.init(
-                        title:          jsonNews.title,
-                        abstract:       jsonNews.abstract,
-                        url:            jsonNews.url,
-                        publishedDate:  toDate(dateFormat: jsonNews.published_date)!,
-                        multimediaURL:  (jsonNews.multimedia[3].url),
-                        image:          nil
-                    )
-                    onCompletion?(news)
-                }
-            } else {
-                Notifications.callAlert(title: "Error", message: "Please connect to the Internet.", in: NewsFeedViewController.self as! UIViewController)
+    static func parseJsonResult(withData result: Result<Data, Error>) {
+        switch result {
+        case .success(let data):
+            do {
+                let news = try JSONDecoder().decode(NewsFeed.self, from: data)
+                print(news)
+                onCompletion?(news.results.sorted{ $0.published_date > $1.published_date })
+            } catch let jsonError {
+                print("Failed to decode JSON", jsonError)
+                onCompletion?(nil)
             }
-        } catch {
-            Notifications.callAlert(title: "Error", message: "Service unavailable, out of try later.", in: NewsFeedViewController.self as! UIViewController)
+        case .failure(let error):
+            print("Error received requesting data: \(error.localizedDescription)")
+            onCompletion?(nil)
         }
     }
-    
-    static func toDate(dateFormat: String) -> Date? {
-        let lengthDate              = 19
-        let lengthDateFormat        = dateFormat.count
-        let lengthDrop              = lengthDateFormat - lengthDate
-        let dateAsString            = dateFormat.dropLast(lengthDrop)
-        let dateFormatter           = DateFormatter()
-        dateFormatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ss"
-        
-        return dateFormatter.date(from: String(dateAsString))
-    }
-
 }

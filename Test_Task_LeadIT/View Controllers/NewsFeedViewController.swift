@@ -9,6 +9,7 @@ import UIKit
 
 final class NewsFeedViewController: UIViewController {
     @IBOutlet weak var newsFeedCollectionView: UICollectionView!
+    @IBOutlet weak var processingActivityIndicatorView: UIActivityIndicatorView!
     let newsRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         let title = NSLocalizedString("Just a second", comment: "Pull to refresh")
@@ -20,8 +21,11 @@ final class NewsFeedViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if Reachability.isConnectedToNetwork() != true {
-            Notifications.callAlert(title: "Error", message: "Please connect to the Internet", in: self)
+            Notifications.callAlert(title: "Error", message: "Please connect to the Interneta and pull to download news", in: self)
+            processingActivityIndicatorView.isHidden = true
         } else {
+            processingActivityIndicatorView.isHidden = false
+            processingActivityIndicatorView.startAnimating()
             executeRequest(checking: false)
         }
     }
